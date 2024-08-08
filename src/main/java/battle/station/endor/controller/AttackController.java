@@ -1,9 +1,10 @@
-package battle.station.endor.rest;
+package battle.station.endor.controller;
 
 import battle.station.endor.dto.AttackResponseDto;
 import battle.station.endor.dto.DroidProbeDto;
 import battle.station.endor.dto.FireIonCannonDto;
 import battle.station.endor.service.IonCannonService;
+import battle.station.endor.service.TargetSelectorService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class AttackController {
     @Autowired
     private IonCannonService fireService;
+    @Autowired
+    private TargetSelectorService targetSelectorService;
 
     @PostMapping(value = "/attack")
     @ResponseStatus(HttpStatus.OK)
     public AttackResponseDto attack(@RequestBody @Valid DroidProbeDto droidProbeDto) {
-        var scanProbeDto = fireService.findNextTarget(droidProbeDto);
+        var scanProbeDto = targetSelectorService.findNextTarget(droidProbeDto);
         log.info("Selected point {}", scanProbeDto);
         var fireIonCannonDto = FireIonCannonDto.builder()
                 .target(scanProbeDto.getCoordinates())

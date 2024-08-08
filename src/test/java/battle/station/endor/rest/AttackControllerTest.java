@@ -4,30 +4,20 @@ import battle.station.endor.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.net.URI;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -71,9 +61,9 @@ class AttackControllerTest {
 
     private void mockRestTemplate(int gen) {
         doReturn(IonCannonStatusDto.builder().available(true).generation(gen).build()).when(restTemplate)
-                .getForObject(anyString(), eq(IonCannonStatusDto.class));
+                .getForObject(any(URI.class), eq(IonCannonStatusDto.class));
         doReturn(FireIonCannonResponseDto.builder().generation(gen).casualties(10).build()).when(restTemplate)
-                .postForObject(anyString(), any(FireIonCannonDto.class),
+                .postForObject(any(URI.class), any(FireIonCannonDto.class),
                         eq(FireIonCannonResponseDto.class));
     }
 

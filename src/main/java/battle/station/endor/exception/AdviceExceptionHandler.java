@@ -1,7 +1,5 @@
 package battle.station.endor.exception;
 
-import battle.station.endor.exception.CommonEnderRuntimeException;
-import battle.station.endor.exception.RestTemplateException;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +18,12 @@ public class AdviceExceptionHandler implements ResponseErrorHandler {
 
     @ExceptionHandler({RestTemplateException.class})
     ResponseEntity<String> handleRestTemplateException(RestTemplateException ex) {
-        return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 
     @ExceptionHandler({CommonEnderRuntimeException.class})
     ResponseEntity<String> handleCommonEnderException(CommonEnderRuntimeException ex) {
-        return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 
     @ExceptionHandler({IllegalArgumentException.class})
@@ -53,7 +51,7 @@ public class AdviceExceptionHandler implements ResponseErrorHandler {
         if (hasError(response)) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()))) {
                 String httpBodyResponse = reader.lines().collect(Collectors.joining(""));
-                throw new CommonEnderRuntimeException((HttpStatus) response.getStatusCode(), httpBodyResponse);
+                throw new CommonEnderRuntimeException(httpBodyResponse);
             }
         }
     }

@@ -8,13 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class IonCannonServiceTest {
     @Autowired
-    private IonCannonService cannonService;
+    private TargetSelectorService cannonService;
 
     @Test
     void findNextTarget_closest() {

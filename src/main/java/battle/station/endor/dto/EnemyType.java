@@ -3,6 +3,8 @@ package battle.station.endor.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Arrays;
+
 public enum EnemyType {
     MECH("mech"),
     SOLDIER("soldier");
@@ -24,13 +26,9 @@ public enum EnemyType {
 
     @JsonCreator
     public static EnemyType fromValue(String value) {
-        for (EnemyType type : values()) {
-            String typeValue = type.getValue();
-            if (typeValue.equals(value)) {
-                return type;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid value for EnemyType Enum: " + value);
+        return Arrays.stream(values())
+                .filter(type -> type.getValue().equals(value))
+                .findFirst().
+                orElseThrow(() -> new IllegalArgumentException("Invalid value for EnemyType Enum: " + value));
     }
 }

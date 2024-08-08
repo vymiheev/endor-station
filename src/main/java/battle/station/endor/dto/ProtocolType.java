@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 public enum ProtocolType {
@@ -36,14 +37,10 @@ public enum ProtocolType {
     }
 
     @JsonCreator
-    public static ProtocolType fromValue(String value) {
-        for (ProtocolType type : values()) {
-            String typeValue = type.getValue();
-            if (typeValue.equals(value)) {
-                return type;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid value for ProtocolType Enum: " + value);
+    public static ProtocolType fromValue(String value){
+        return Arrays.stream(values())
+                .filter(type -> type.getValue().equals(value))
+                .findFirst().
+                orElseThrow(() -> new IllegalArgumentException("Invalid value for ProtocolType Enum: " + value));
     }
 }

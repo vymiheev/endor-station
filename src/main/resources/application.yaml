@@ -1,0 +1,31 @@
+server:
+  port: 3000
+
+
+# Application configuration
+station-ender:
+  radius-of-sight: 100
+  rest:
+    connect-timeout-ms: 1000
+    read-timeout-ms: 5000
+  cannon:
+    fire-retry: 3
+    fire-url: fire
+    status-url: status
+    ion-generation-1:
+      host: 192.168.1.170
+      port: 3001
+      fire-time: 3500000
+      generation: 1
+    ion-generation-2:
+      host: 192.168.1.170
+      port: 3002
+      fire-time: 1500000
+      generation: 2
+    ion-generation-3:
+      host: 192.168.1.170
+      port: 3003
+      fire-time: 2500000
+      generation: 3
+
+logging.level.battle: DEBUG

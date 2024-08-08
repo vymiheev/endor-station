@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ion-cannon-1:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 1
+    ports:
+      - "${VAR_HOST}:3001:3000"
+
+  ion-cannon-2:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 2
+    ports:
+      - "${VAR_HOST}:3002:3000"
+
+  ion-cannon-3:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 3
+    ports:
+      - "${VAR_HOST}:3003:3000"

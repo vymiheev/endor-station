@@ -29,7 +29,7 @@ public class IonCannonRestClientImpl implements IonCannonRestClient {
 
     @NotNull
     public IonCannonStatusDto checkStatus(@NotNull CannonGenerationProperties cannonProperties) throws RestTemplateException {
-        String url = String.format("http://%s:%d/%s", cannonProperties.getHost(), cannonProperties.getPort(), appProperties.getCannon().getStatusUrl());
+        String url = String.format("http://%s/%s", cannonProperties.getServiceUrl(), appProperties.getCannon().getStatusUrl());
         URI uri = URI.create(url);
         log.debug("Check Ion Cannon Status up {}", url);
         IonCannonStatusDto result;
@@ -47,7 +47,7 @@ public class IonCannonRestClientImpl implements IonCannonRestClient {
 
     @NotNull
     public FireIonCannonResponseDto fire(@NotNull CannonGenerationProperties cannonProperties, @NotNull FireIonCannonDto fireIonCannonDto) throws RestTemplateException {
-        String url = String.format("http://%s:%d/%s", cannonProperties.getHost(), cannonProperties.getPort(), appProperties.getCannon().getFireUrl());
+        String url = String.format("http://%s/%s",  cannonProperties.getServiceUrl(), appProperties.getCannon().getFireUrl());
         URI uri = URI.create(url);
         log.debug("Fire Ion Cannon {}\n{}", url, fireIonCannonDto);
         FireIonCannonResponseDto result;

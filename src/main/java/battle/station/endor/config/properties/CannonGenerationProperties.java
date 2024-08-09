@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @ToString
 public class CannonGenerationProperties implements Comparable<CannonGenerationProperties> {
-    private String host;
-    private int port;
+    private String serviceUrl;
     //in microseconds
     private long fireTime;
     private int generation;

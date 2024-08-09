@@ -6,18 +6,30 @@ services:
     environment:
       CANNON_GEN: 1
     ports:
-      - "${VAR_HOST}:3001:3000"
+      - "3001:3000"
 
   ion-cannon-2:
     image: seedtaghiring/ion-cannon:v1
     environment:
       CANNON_GEN: 2
     ports:
-      - "${VAR_HOST}:3002:3000"
+      - "3002:3000"
 
   ion-cannon-3:
     image: seedtaghiring/ion-cannon:v1
     environment:
       CANNON_GEN: 3
     ports:
-      - "${VAR_HOST}:3003:3000"
+      - "3003:3000"
+  endor-station:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ion-cannon-1
+      - ion-cannon-2
+      - ion-cannon-3
+    environment:
+      CANNON_1_URL: ion-cannon-1:3000
+      CANNON_2_URL: ion-cannon-2:3000
+      CANNON_3_URL: ion-cannon-3:3000

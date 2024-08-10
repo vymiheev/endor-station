@@ -9,7 +9,6 @@ station-ender:
     connect-timeout-ms: 1000
     read-timeout-ms: 5000
   cannon:
-    fire-retry: 3
     fire-url: fire
     status-url: status
     ion-generation-1:

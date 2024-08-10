@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -29,7 +30,8 @@ public class IonCannonServiceImpl implements IonCannonService {
     @Autowired
     private MainEndorProperties appProperties;
     private static final int MAX_GUN_AMOUNT = 3;
-    private final PriorityBlockingQueue<CannonGenerationProperties> gunAvailableQueue = new PriorityBlockingQueue<>(MAX_GUN_AMOUNT);
+    private final PriorityBlockingQueue<CannonGenerationProperties> gunAvailableQueue = new PriorityBlockingQueue<>(MAX_GUN_AMOUNT,
+            Comparator.comparingInt(CannonGenerationProperties::getGeneration));
     private final ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(MAX_GUN_AMOUNT);
 
     @PostConstruct
@@ -41,11 +43,8 @@ public class IonCannonServiceImpl implements IonCannonService {
 
     @NotNull
     public FireIonCannonResponseDto fireAvailableGun(@NotNull FireIonCannonDto fireIonCannonDto) {
-        int attempt = 0;
         FireIonCannonResponseDto fireResponse = null;
-        while (attempt < appProperties.getCannon().getFireRetry() && fireResponse == null) {
-            ++attempt;
-
+        while (Objects.isNull(fireResponse)) {
             CannonGenerationProperties gun = null;
             try {
                 gun = gunAvailableQueue.take();
@@ -70,9 +69,6 @@ public class IonCannonServiceImpl implements IonCannonService {
                 log.error("Rest IonCannon communication exception", e);
                 throw new CommonEnderRuntimeException(e.getMessage());
             }
-        }
-        if (Objects.isNull(fireResponse)) {
-            throw new CommonEnderRuntimeException("Attempt amount of searching available exceeded");
         }
         return fireResponse;
     }

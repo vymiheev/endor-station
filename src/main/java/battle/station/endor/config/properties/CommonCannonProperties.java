@@ -15,7 +15,6 @@ public class CommonCannonProperties {
     private CannonGenerationProperties ionGeneration1;
     private CannonGenerationProperties ionGeneration2;
     private CannonGenerationProperties ionGeneration3;
-    private int fireRetry;
     private String statusUrl;
     private String fireUrl;
 }
